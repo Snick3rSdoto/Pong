@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Config.hpp"
 #include <SFML/Graphics.hpp>
 
 class Game {
@@ -17,7 +18,7 @@ private:
 
 
 Game::Game()
-: mWindow(sf::VideoMode(800, 600), "SFML Game")
+: mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 {
 }
 
