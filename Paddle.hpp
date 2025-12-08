@@ -1,10 +1,11 @@
 #pragma once 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
-
 #include <memory>
+
 #include "GameObject.hpp"
 #include "ControlStrategy.hpp"
 
@@ -20,7 +21,8 @@ public:
 	void update(float dt) override;
 	void draw(sf::RenderWindow& window) override;
 
-	float getCenterY() const;
+	float 		 getCenterY() const;
+	sf::FloatRect getBounds() const;
 
 private:
     sf::RectangleShape mShape;

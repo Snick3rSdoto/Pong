@@ -12,6 +12,11 @@ public:
 	void draw(sf::RenderWindow& window) const;
 
 	const sf::CircleShape getShape() const { return mShape;} 
+	sf::FloatRect getBounds() const;
+
+	sf::Vector2f getVelocity() const;
+	void setVelocity(const sf::Vector2f& vel);
+	void setPosition(const sf::Vector2f& pos);
 
 private:
 	sf::CircleShape mShape;

@@ -60,6 +60,8 @@ void Game::update(float dt) {
 	mBall.update(dt);
 	mPlayerPaddle.update(dt);
 	mOpponentPaddle.update(dt);
+
+	handleCollisions();
 }
 
 void Game::render() {
@@ -71,3 +73,38 @@ void Game::render() {
 
     mWindow.display();
 }
+
+
+void Game::handleCollisions() {
+    sf::FloatRect ballBounds     = mBall.getBounds();
+    sf::Vector2f  ballVelocity   = mBall.getVelocity();
+
+    sf::FloatRect playerBounds   = mPlayerPaddle.getBounds();
+    sf::FloatRect opponentBounds = mOpponentPaddle.getBounds();
+
+	// collision with the left paddle (player)
+    if (ballBounds.intersects(playerBounds) && ballVelocity.x < 0.f) {
+		// pushes out ball right of paddle
+        ballBounds.left = playerBounds.left + playerBounds.width;
+        mBall.setPosition({ ballBounds.left, ballBounds.top });
+
+        ballVelocity.x = -ballVelocity.x;
+        mBall.setVelocity(ballVelocity);
+    }
+
+	// updating boundaries after a possible shift
+    ballBounds = mBall.getBounds();
+
+	// collision with the right paddle (opponent)
+    if (ballBounds.intersects(opponentBounds) && ballVelocity.x > 0.f) {
+		// pushes out ball left of paddle
+        ballBounds.left = opponentBounds.left - ballBounds.width;
+        mBall.setPosition({ ballBounds.left, ballBounds.top });
+
+        ballVelocity.x = -ballVelocity.x;
+        mBall.setVelocity(ballVelocity);
+    }
+}
+
+
+

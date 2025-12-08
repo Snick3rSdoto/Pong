@@ -14,6 +14,7 @@ private:
     void update(float dt);
     void render();
 
+	void handleCollisions();
 private:
     sf::RenderWindow mWindow;
 	Ball			 mBall;

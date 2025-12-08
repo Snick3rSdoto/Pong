@@ -53,6 +53,9 @@ float Paddle::getCenterY() const {
     return mShape.getPosition().y + PADDLE_HEIGHT / 2.f;
 }
 
+sf::FloatRect Paddle::getBounds() const {
+    return mShape.getGlobalBounds();
+}
 
 
 

@@ -20,11 +20,11 @@ void Ball::update(float dt) {
 	sf::Vector2u size = mWindow->getSize();
 
 
-	//движения
+	//movement
 	pos += mVelocity * dt;
 
 
-	// отскок по X
+	// rebound by X
     if (pos.x <= 0.f) {
         pos.x = 0.f;
         mVelocity.x *= -1.f;
@@ -33,7 +33,7 @@ void Ball::update(float dt) {
         mVelocity.x *= -1.f;
     }
 	
-	// отскок по Y
+	// rebound by Y
     if (pos.y <= 0.f) {
         pos.y = 0.f;
         mVelocity.y *= -1.f;
@@ -49,4 +49,22 @@ void Ball::update(float dt) {
 void Ball::draw(sf::RenderWindow& window) const {
 	window.draw(mShape);
 }
+
+
+sf::FloatRect Ball::getBounds() const {
+    return mShape.getGlobalBounds();
+}
+
+sf::Vector2f Ball::getVelocity() const {
+    return mVelocity;
+}
+
+void Ball::setVelocity(const sf::Vector2f& vel) {
+    mVelocity = vel;
+}
+
+void Ball::setPosition(const sf::Vector2f& pos) {
+    mShape.setPosition(pos);
+}
+
 
