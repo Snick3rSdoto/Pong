@@ -1,24 +1,27 @@
 #include "Ball.hpp"
+#include <SFML/Graphics/RenderWindow.hpp>
 
 
-Ball::Ball(sf::Vector2f startPos)
+Ball::Ball(sf::Vector2f startPos, const sf::RenderWindow& window)
 	: mShape(BALL_RADIUS)
 	, mVelocity(BALL_SPEED, BALL_SPEED)
+	, mWindow(&window)
 {
 	mShape.setFillColor(sf::Color::White);
 	mShape.setPosition(startPos);
 }
 
-void Ball::update(sf::Time dt, const sf::RenderWindow& window) {
-	float seconds = dt.asSeconds();
+void Ball::update(float dt) {
+	if(!mWindow) { return; }
+
 
 	sf::Vector2f pos = mShape.getPosition();
 	float diameter = BALL_RADIUS * 2.f;
-	sf::Vector2u size = window.getSize();
+	sf::Vector2u size = mWindow->getSize();
 
 
 	//движения
-	pos += mVelocity * seconds;
+	pos += mVelocity * dt;
 
 
 	// отскок по X

@@ -11,11 +11,12 @@ public:
 
 private:
     void processEvents();
-    void update(sf::Time dt);
+    void update(float dt);
     void render();
 
 private:
     sf::RenderWindow mWindow;
 	Ball			 mBall;
-	Paddle			 mPaddle;
+	Paddle			 mPlayerPaddle;
+	Paddle			 mOpponentPaddle;
 };

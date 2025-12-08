@@ -4,16 +4,29 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include <memory>
+#include "GameObject.hpp"
+#include "ControlStrategy.hpp"
 
-class Paddle {
+
+
+class Paddle : public GameObject{
 public:
-	Paddle(sf::Vector2f startPos);
+	Paddle(sf::Vector2f startPos,
+			const sf::RenderWindow& window,
+			std::unique_ptr<ControlStrategy> controlStrategy
+			);
 
-	void update(sf::Time dt, const sf::RenderWindow& window);
-	void draw(sf::RenderWindow& window) const;
+	void update(float dt) override;
+	void draw(sf::RenderWindow& window) override;
+
+	float getCenterY() const;
 
 private:
-	sf::RectangleShape mShape;
+    sf::RectangleShape mShape;
+    const sf::RenderWindow* mWindow;
+    std::unique_ptr<ControlStrategy> mControlStrategy;
+
 };
 
 
