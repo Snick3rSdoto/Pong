@@ -1,5 +1,8 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "Ball.hpp"
+#include "Paddle.hpp"
+
 
 class Game {
 public:
@@ -14,4 +17,5 @@ private:
 private:
     sf::RenderWindow mWindow;
 	Ball			 mBall;
+	Paddle			 mPaddle;
 };
