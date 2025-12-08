@@ -24,6 +24,8 @@ public:
 	float 		 getCenterY() const;
 	sf::FloatRect getBounds() const;
 
+	void setPosition(const sf::Vector2f& pos);
+
 private:
     sf::RectangleShape mShape;
     const sf::RenderWindow* mWindow;

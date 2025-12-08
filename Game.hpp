@@ -15,7 +15,11 @@ private:
     void render();
 
 	void handleCollisions();
+	void resetRound(int direction);
 private:
+	int mPlayerScore{0};
+	int mOpponentScore{0};
+
     sf::RenderWindow mWindow;
 	Ball			 mBall;
 	Paddle			 mPlayerPaddle;

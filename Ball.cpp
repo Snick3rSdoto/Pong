@@ -1,5 +1,6 @@
 #include "Ball.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
 
 Ball::Ball(sf::Vector2f startPos, const sf::RenderWindow& window)
@@ -24,14 +25,14 @@ void Ball::update(float dt) {
 	pos += mVelocity * dt;
 
 
-	// rebound by X
-    if (pos.x <= 0.f) {
-        pos.x = 0.f;
-        mVelocity.x *= -1.f;
-    } else if (pos.x + diameter >= static_cast<float>(size.x)) {
-        pos.x = static_cast<float>(size.x) - diameter;
-        mVelocity.x *= -1.f;
-    }
+	 //rebound by X
+	//if (pos.x <= 0.f) {
+		//pos.x = 0.f;
+		//mVelocity.x *= -1.f;
+	//} else if (pos.x + diameter >= static_cast<float>(size.x)) {
+		//pos.x = static_cast<float>(size.x) - diameter;
+		//mVelocity.x *= -1.f;
+	//}
 	
 	// rebound by Y
     if (pos.y <= 0.f) {
@@ -67,4 +68,7 @@ void Ball::setPosition(const sf::Vector2f& pos) {
     mShape.setPosition(pos);
 }
 
+void Ball::reset(const sf::Vector2f& position) {
+	mShape.setPosition(position);
+}
 
