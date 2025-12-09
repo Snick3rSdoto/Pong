@@ -1,7 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Ball.hpp"
 #include "Paddle.hpp"
+#include "Ball.hpp"
+//#include "Config.hpp"
+#include <vector>
+#include <memory>
+
+
+//class GameObject;
+//class Ball;
+//class Paddle;
 
 
 class Game {
@@ -16,12 +24,15 @@ private:
 
 	void handleCollisions();
 	void resetRound(int direction);
+
 private:
+    sf::RenderWindow mWindow;
+
+    std::vector<std::shared_ptr<GameObject>> mObjects;
+	std::shared_ptr<Ball>   mBall;
+    std::shared_ptr<Paddle> mPlayerPaddle;
+    std::shared_ptr<Paddle> mOpponentPaddle;
+
 	int mPlayerScore{0};
 	int mOpponentScore{0};
-
-    sf::RenderWindow mWindow;
-	Ball			 mBall;
-	Paddle			 mPlayerPaddle;
-	Paddle			 mOpponentPaddle;
 };

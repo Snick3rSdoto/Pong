@@ -47,7 +47,7 @@ void Ball::update(float dt) {
 
 }
 
-void Ball::draw(sf::RenderWindow& window) const {
+void Ball::draw(sf::RenderWindow& window) {
 	window.draw(mShape);
 }
 

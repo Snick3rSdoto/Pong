@@ -6,6 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <memory>
 
+#include "Config.hpp"
 #include "GameObject.hpp"
 #include "ControlStrategy.hpp"
 
@@ -15,7 +16,8 @@ class Paddle : public GameObject{
 public:
 	Paddle(sf::Vector2f startPos,
 			const sf::RenderWindow& window,
-			std::unique_ptr<ControlStrategy> controlStrategy
+			std::unique_ptr<ControlStrategy> controlStrategy,
+			float speed = PADDLE_SPEED
 			);
 
 	void update(float dt) override;
@@ -30,11 +32,5 @@ private:
     sf::RectangleShape mShape;
     const sf::RenderWindow* mWindow;
     std::unique_ptr<ControlStrategy> mControlStrategy;
-
+	float mSpeed;
 };
-
-
-
-
-
-

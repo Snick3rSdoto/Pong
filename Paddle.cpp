@@ -9,10 +9,12 @@
 
 Paddle::Paddle(sf::Vector2f startPos,
 		const sf::RenderWindow& window,
-		std::unique_ptr<ControlStrategy> controlStrategy)
+		std::unique_ptr<ControlStrategy> controlStrategy,
+		float speed)
 	: mShape()
 	, mWindow(&window)
 	, mControlStrategy(std::move(controlStrategy))
+	, mSpeed(speed)
 {
 	mShape.setSize(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT));
 	mShape.setFillColor(sf::Color::White);
@@ -29,7 +31,7 @@ void Paddle::update(float dt) {
 	
 
     sf::Vector2f pos = mShape.getPosition();
-	pos.y += dir * PADDLE_SPEED * dt;
+	pos.y += dir * mSpeed * dt;
 
 
 	// limit it within the window
@@ -60,5 +62,4 @@ sf::FloatRect Paddle::getBounds() const {
 void Paddle::setPosition(const sf::Vector2f& pos) {
 	mShape.setPosition(pos);
 }
-
 

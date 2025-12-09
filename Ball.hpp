@@ -4,13 +4,14 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include "Config.hpp"
+#include "GameObject.hpp"
 
-class Ball {
+class Ball : public GameObject {
 public:
 	Ball(sf::Vector2f startPos, const sf::RenderWindow& window);
 
-	void update(float dt);
-	void draw(sf::RenderWindow& window) const;
+	void update(float dt) override;
+	void draw(sf::RenderWindow& window) override;
 
 	const sf::CircleShape getShape() const { return mShape;} 
 	sf::FloatRect getBounds() const;
