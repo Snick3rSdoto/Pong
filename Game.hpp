@@ -2,14 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Paddle.hpp"
 #include "Ball.hpp"
-//#include "Config.hpp"
 #include <vector>
 #include <memory>
-
-
-//class GameObject;
-//class Ball;
-//class Paddle;
 
 
 class Game {
@@ -35,4 +29,7 @@ private:
 
 	int mPlayerScore{0};
 	int mOpponentScore{0};
+
+	sf::Font mFont;
+	sf::Text mScoreText;
 };

@@ -38,6 +38,14 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 	mObjects.push_back(mPlayerPaddle);
 	mObjects.push_back(mOpponentPaddle);
 
+
+	//set up the score text 
+	if (!mFont.loadFromFile("arial.ttf")) {
+		std::cerr << "Failed to load font arial.ttf\n";
+	}
+	mScoreText.setFont(mFont);
+	mScoreText.setCharacterSize(30);
+	mScoreText.setFillColor(sf::Color::White);
 }
 
 void Game::run() {
@@ -72,23 +80,39 @@ void Game::update(float dt) {
 
 	handleCollisions();
 
-	std::cout << mPlayerScore << " " << mOpponentScore << "\n";
+	//std::cout << mPlayerScore << " " << mOpponentScore << "\n";
+	
+	mScoreText.setString(
+			std::to_string(mPlayerScore) + " : " + std::to_string(mOpponentScore)
+			);
+
+	//Center the text horizontally, place it on top
+	sf::FloatRect bounds = mScoreText.getLocalBounds();
+	mScoreText.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	mScoreText.setPosition(WINDOW_WIDTH / 2.f, 30.f);
 }
 
 void Game::render() {
 	mWindow.clear(sf::Color::Black);
 
+	// small centralized line
+	sf::RectangleShape centerLine({2.f, static_cast<float>(WINDOW_HEIGHT)});
+	centerLine.setFillColor(sf::Color(128, 128, 128));
+	centerLine.setPosition(WINDOW_WIDTH / 2.f, 0.f);
+	mWindow.draw(centerLine);
+
 	for(auto& obj : mObjects) {
 		obj->draw(mWindow);
 	}
-	
+
+	mWindow.draw(mScoreText);
 
     mWindow.display();
 }
 
 
 void Game::handleCollisions() {
-	sf::FloatRect ballBounds     = mBall->getBounds();
+	sf::FloatRect ballBounds = mBall->getBounds();
 
 	// FIRST we check the goals (touching the left/right wall)
     if (ballBounds.left <= 0.f) {
