@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <iostream>
+#include <ostream>
 
 Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 {
@@ -139,6 +140,7 @@ void Game::handleCollisions() {
 
 		ballVelocity.x = -ballVelocity.x;
 		mBall->setVelocity(ballVelocity);
+		std::cout << '\a' << std::flush;
 	}
 
 	// updating boundaries after a possible shift
@@ -152,6 +154,7 @@ void Game::handleCollisions() {
 
 		ballVelocity.x = -ballVelocity.x;
 		mBall->setVelocity(ballVelocity);
+		std::cout << '\a' << std::flush;
 	}
 }
 
