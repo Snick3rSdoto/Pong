@@ -3,14 +3,11 @@
 #include <SFML/Window/Keyboard.hpp>
 
 float PlayerControlStrategy::getDirection(float /*paddleCenterY*/) {
-    float dir = 0.f;
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        dir -= 1.f;
+		return -1.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        dir += 1.f;
-
-    return dir;
+		return 1.f;
+    return 0.f;
 }
 
 AIControlStrategy::AIControlStrategy(const Ball& ball)
