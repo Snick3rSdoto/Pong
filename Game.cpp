@@ -6,6 +6,13 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 {
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
+	initObjects();
+	initScoreText();
+
+}
+
+void Game::initObjects() {
+
 	mBall = std::make_shared<Ball>(
 			sf::Vector2f(
 				WINDOW_WIDTH  / 2.f - BALL_RADIUS,
@@ -14,7 +21,6 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 			mWindow
 			);
 
-	// our left paddle
 	mPlayerPaddle = std::make_shared<Paddle>(
 			sf::Vector2f(
 				10.f, // move away a bit
@@ -32,15 +38,15 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 				),
 			mWindow,
 			std::make_unique<AIControlStrategy>(*mBall), // AI follows the ball
-			PADDLE_SPEED * 0.9f //a little slover
+			PADDLE_SPEED * 0.5f //a little slover
 			);
 
 	mObjects.push_back(mBall);
 	mObjects.push_back(mPlayerPaddle);
 	mObjects.push_back(mOpponentPaddle);
+}
 
-
-	//set up the score text 
+void Game::initScoreText() {
 	if (!mFont.loadFromFile("arial.ttf")) {
 		std::cerr << "Failed to load font arial.ttf\n";
 	}

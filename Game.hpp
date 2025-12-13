@@ -19,6 +19,9 @@ private:
 	void handleCollisions();
 	void resetRound(int direction);
 
+	void initObjects();
+	void initScoreText();
+
 private:
     sf::RenderWindow mWindow;
 
