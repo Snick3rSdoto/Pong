@@ -22,14 +22,15 @@ private:
 private:
     sf::RenderWindow mWindow;
 
-    std::vector<std::shared_ptr<GameObject>> mObjects;
+	sf::Text mScoreText;
+	sf::Font mFont;
+
 	std::shared_ptr<Ball>   mBall;
     std::shared_ptr<Paddle> mPlayerPaddle;
     std::shared_ptr<Paddle> mOpponentPaddle;
+	std::vector<std::shared_ptr<GameObject>> mObjects;
 
 	int mPlayerScore{0};
 	int mOpponentScore{0};
 
-	sf::Font mFont;
-	sf::Text mScoreText;
 };
