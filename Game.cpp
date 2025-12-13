@@ -109,7 +109,7 @@ void Game::render() {
 	mWindow.draw(centerLine);
 
 	for(auto& obj : mObjects) {
-		obj->draw(mWindow);
+		obj->draw();
 	}
 
 	mWindow.draw(mScoreText);

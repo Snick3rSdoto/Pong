@@ -3,22 +3,20 @@
 #include <SFML/System/Vector2.hpp>
 
 
-Ball::Ball(sf::Vector2f startPos, const sf::RenderWindow& window)
+Ball::Ball(sf::Vector2f startPos, sf::RenderWindow& window)
 	: mShape(BALL_RADIUS)
 	, mVelocity(BALL_SPEED, BALL_SPEED)
-	, mWindow(&window)
+	, mWindow(window)
 {
 	mShape.setFillColor(sf::Color::White);
 	mShape.setPosition(startPos);
 }
 
 void Ball::update(float dt) {
-	if(!mWindow) { return; }
-
 
 	sf::Vector2f pos = mShape.getPosition();
 	float diameter = BALL_RADIUS * 2.f;
-	sf::Vector2u size = mWindow->getSize();
+	sf::Vector2u size = mWindow.getSize();
 
 
 	//movement
@@ -47,8 +45,8 @@ void Ball::update(float dt) {
 
 }
 
-void Ball::draw(sf::RenderWindow& window) {
-	window.draw(mShape);
+void Ball::draw() {
+	mWindow.draw(mShape);
 }
 
 

@@ -8,10 +8,10 @@
 
 class Ball : public GameObject {
 public:
-	Ball(sf::Vector2f startPos, const sf::RenderWindow& window);
+	Ball(sf::Vector2f startPos, sf::RenderWindow& window);
 
 	void update(float dt) override;
-	void draw(sf::RenderWindow& window) override;
+	void draw() override;
 
 	const sf::CircleShape& getShape() const { return mShape;} 
 	sf::FloatRect getBounds() const;
@@ -25,5 +25,5 @@ public:
 private:
 	sf::CircleShape mShape;
 	sf::Vector2f	mVelocity;
-	const sf::RenderWindow* mWindow;
+	sf::RenderWindow& mWindow;
 };

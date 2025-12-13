@@ -8,11 +8,11 @@
 
 
 Paddle::Paddle(sf::Vector2f startPos,
-		const sf::RenderWindow& window,
+		sf::RenderWindow& window,
 		std::unique_ptr<ControlStrategy> controlStrategy,
 		float speed)
 	: mShape()
-	, mWindow(&window)
+	, mWindow(window)
 	, mControlStrategy(std::move(controlStrategy))
 	, mSpeed(speed)
 {
@@ -23,7 +23,6 @@ Paddle::Paddle(sf::Vector2f startPos,
 
 
 void Paddle::update(float dt) {
-	if (!mWindow || !mControlStrategy) return;
 
 	float paddleCenterY = getCenterY();
 	// -1, 0, 1 from strategy
@@ -35,7 +34,7 @@ void Paddle::update(float dt) {
 
 
 	// limit it within the window
-    float windowHeight = static_cast<float>(mWindow->getSize().y);
+    float windowHeight = static_cast<float>(mWindow.getSize().y);
 
     if (pos.y < 0.f) {
         pos.y = 0.f;
@@ -47,8 +46,8 @@ void Paddle::update(float dt) {
 
 }
 
-void Paddle::draw(sf::RenderWindow& window) {
-	window.draw(mShape);
+void Paddle::draw() {
+	mWindow.draw(mShape);
 }
 
 float Paddle::getCenterY() const {

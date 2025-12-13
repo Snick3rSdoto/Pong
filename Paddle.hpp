@@ -15,13 +15,13 @@
 class Paddle : public GameObject{
 public:
 	Paddle(sf::Vector2f startPos,
-			const sf::RenderWindow& window,
+			sf::RenderWindow& window,
 			std::unique_ptr<ControlStrategy> controlStrategy,
 			float speed = PADDLE_SPEED
 			);
 
 	void update(float dt) override;
-	void draw(sf::RenderWindow& window) override;
+	void draw() override;
 
 	float 		 getCenterY() const;
 	sf::FloatRect getBounds() const;
@@ -30,7 +30,7 @@ public:
 
 private:
     sf::RectangleShape mShape;
-    const sf::RenderWindow* mWindow;
+    sf::RenderWindow& mWindow;
     std::unique_ptr<ControlStrategy> mControlStrategy;
 	float mSpeed;
 };
