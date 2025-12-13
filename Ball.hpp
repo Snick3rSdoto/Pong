@@ -13,10 +13,10 @@ public:
 	void update(float dt) override;
 	void draw(sf::RenderWindow& window) override;
 
-	const sf::CircleShape getShape() const { return mShape;} 
+	const sf::CircleShape& getShape() const { return mShape;} 
 	sf::FloatRect getBounds() const;
 
-	sf::Vector2f getVelocity() const;
+	const sf::Vector2f& getVelocity() const { return mVelocity; }
 	void setVelocity(const sf::Vector2f& vel);
 	void setPosition(const sf::Vector2f& pos);
 
