@@ -19,7 +19,7 @@ float AIControlStrategy::getDirection(float paddleCenterY) {
     const auto& shape = m_ball.getShape();
     float ballCenterY = shape.getPosition().y + shape.getRadius();
 
-    const float deadZone = 10.f; // to keep it from twitching
+    constexpr const float deadZone = 10.f; // to keep it from twitching
     if (ballCenterY < paddleCenterY - deadZone)
         return -1.f;
     if (ballCenterY > paddleCenterY + deadZone)
