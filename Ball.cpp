@@ -62,7 +62,3 @@ void Ball::setPosition(const sf::Vector2f& pos) {
     mShape.setPosition(pos);
 }
 
-void Ball::reset(const sf::Vector2f& position) {
-	mShape.setPosition(position);
-}
-

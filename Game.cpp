@@ -170,7 +170,7 @@ void Game::resetRound(int direction) {
         WINDOW_WIDTH  / 2.f - BALL_RADIUS,
         WINDOW_HEIGHT / 2.f - BALL_RADIUS
     );
-    mBall->reset(centerPos);
+    mBall->setPosition(centerPos);
 
 	// random Y direction: up or down
     float signY = (std::rand() % 2 == 0 ? 1.f : -1.f);

@@ -20,8 +20,6 @@ public:
 	void setVelocity(const sf::Vector2f& vel);
 	void setPosition(const sf::Vector2f& pos);
 
-	void reset(const sf::Vector2f& position);
-
 private:
 	sf::CircleShape mShape;
 	sf::Vector2f	mVelocity;
