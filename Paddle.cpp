@@ -26,7 +26,7 @@ void Paddle::update(float dt) {
 
 	float paddleCenterY = getCenterY();
 	// -1, 0, 1 from strategy
-	float dir = mControlStrategy->getDirection(dt, paddleCenterY);
+	float dir = mControlStrategy->getDirection(paddleCenterY);
 	
 
     sf::Vector2f pos = mShape.getPosition();

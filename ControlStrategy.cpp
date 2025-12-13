@@ -2,7 +2,7 @@
 #include "Ball.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
-float PlayerControlStrategy::getDirection(float /*dt*/, float /*paddleCenterY*/) {
+float PlayerControlStrategy::getDirection(float /*paddleCenterY*/) {
     float dir = 0.f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -18,7 +18,7 @@ AIControlStrategy::AIControlStrategy(const Ball& ball)
 {}
 
 // Very simple AI: the racket tries to keep the center level with the center of the ball
-float AIControlStrategy::getDirection(float /*dt*/, float paddleCenterY) {
+float AIControlStrategy::getDirection(float paddleCenterY) {
     const auto& shape = m_ball.getShape();
     float ballCenterY = shape.getPosition().y + shape.getRadius();
 
