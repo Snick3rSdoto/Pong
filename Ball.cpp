@@ -3,7 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-Ball::Ball(sf::Vector2f startPos, sf::RenderWindow& window)
+Ball::Ball(const sf::Vector2f& startPos, sf::RenderWindow& window)
 	: mShape(BALL_RADIUS)
 	, mVelocity(BALL_SPEED, BALL_SPEED)
 	, mWindow(window)

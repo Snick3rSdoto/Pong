@@ -14,7 +14,7 @@
 
 class Paddle : public GameObject{
 public:
-	Paddle(sf::Vector2f startPos,
+	Paddle(const sf::Vector2f& startPos,
 			sf::RenderWindow& window,
 			std::unique_ptr<ControlStrategy> controlStrategy,
 			float speed = PADDLE_SPEED

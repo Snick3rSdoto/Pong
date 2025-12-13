@@ -7,7 +7,7 @@
 
 
 
-Paddle::Paddle(sf::Vector2f startPos,
+Paddle::Paddle(const sf::Vector2f& startPos,
 		sf::RenderWindow& window,
 		std::unique_ptr<ControlStrategy> controlStrategy,
 		float speed)

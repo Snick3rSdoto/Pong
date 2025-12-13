@@ -8,7 +8,7 @@
 
 class Ball : public GameObject {
 public:
-	Ball(sf::Vector2f startPos, sf::RenderWindow& window);
+	Ball(const sf::Vector2f& startPos, sf::RenderWindow& window);
 
 	void update(float dt) override;
 	void draw() override;
