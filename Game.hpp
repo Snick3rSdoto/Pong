@@ -17,6 +17,11 @@ private:
     void render();
 
 	void handleCollisions();
+
+    bool handleGoalCollisions();
+    void handlePaddleCollisions();
+    void handlePaddleCollision(const std::shared_ptr<Paddle>& paddle, bool isLeftPaddle);
+
 	void resetRound(int direction);
 
 	void initObjects();

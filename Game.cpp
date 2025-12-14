@@ -119,49 +119,58 @@ void Game::render() {
 
 
 void Game::handleCollisions() {
-	sf::FloatRect ballBounds = mBall->getBounds();
+	if(handleGoalCollisions()) { return; }
 
-	// FIRST we check the goals (touching the left/right wall)
+	handlePaddleCollisions();
+}
+
+bool Game::handleGoalCollisions() {
+    sf::FloatRect ballBounds = mBall->getBounds();
+
     if (ballBounds.left <= 0.f) {
         ++mOpponentScore;
-        resetRound(1); // After goal, the ball will go to the right
-        return;
+        resetRound(1);
+        return true;
     }
     if (ballBounds.left + ballBounds.width >= static_cast<float>(WINDOW_WIDTH)) {
         ++mPlayerScore;
-        resetRound(-1); // to the left
+        resetRound(-1);
+        return true;
+    }
+    return false;
+}
+
+void Game::handlePaddleCollisions() {
+    handlePaddleCollision(mPlayerPaddle, true);
+    handlePaddleCollision(mOpponentPaddle, false);
+}
+
+void Game::handlePaddleCollision(const std::shared_ptr<Paddle>& paddle, bool isLeftPaddle) {
+    if (!paddle) { return; }
+
+    sf::FloatRect ballBounds   = mBall->getBounds();
+    sf::Vector2f  ballVelocity = mBall->getVelocity();
+    sf::FloatRect paddleBounds = paddle->getBounds();
+
+    if (!ballBounds.intersects(paddleBounds)) {
+        return;
+    } else if (isLeftPaddle && ballVelocity.x >= 0.f) {
+        return;
+    } else if (!isLeftPaddle && ballVelocity.x <= 0.f) {
         return;
     }
 
-	sf::Vector2f  ballVelocity   = mBall->getVelocity();
+    if (isLeftPaddle) {
+        ballBounds.left = paddleBounds.left + paddleBounds.width;
+    } else {
+        ballBounds.left = paddleBounds.left - ballBounds.width;
+    }
 
-	sf::FloatRect playerBounds   = mPlayerPaddle->getBounds();
-	sf::FloatRect opponentBounds = mOpponentPaddle->getBounds();
+    mBall->setPosition({ ballBounds.left, ballBounds.top });
 
-	// collision with the left paddle (player)
-	if (ballBounds.intersects(playerBounds) && ballVelocity.x < 0.f) {
-		// pushes out ball right of paddle
-		ballBounds.left = playerBounds.left + playerBounds.width;
-		mBall->setPosition({ ballBounds.left, ballBounds.top });
-
-		ballVelocity.x = -ballVelocity.x;
-		mBall->setVelocity(ballVelocity);
-		std::cout << '\a' << std::flush;
-	}
-
-	// updating boundaries after a possible shift
-	ballBounds = mBall->getBounds();
-
-	// collision with the right paddle (opponent)
-	if (ballBounds.intersects(opponentBounds) && ballVelocity.x > 0.f) {
-		// pushes out ball left of paddle
-		ballBounds.left = opponentBounds.left - ballBounds.width;
-		mBall->setPosition({ ballBounds.left, ballBounds.top });
-
-		ballVelocity.x = -ballVelocity.x;
-		mBall->setVelocity(ballVelocity);
-		std::cout << '\a' << std::flush;
-	}
+    ballVelocity.x = -ballVelocity.x;
+    mBall->setVelocity(ballVelocity);
+	std::cout << '\a' << std::flush;
 }
 
 
