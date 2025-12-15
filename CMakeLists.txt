@@ -15,40 +15,39 @@ if (NOT EXISTS "${SFML_INCLUDE_DIR}/SFML/Graphics.hpp")
 endif()
 
 set(SOURCES
-    main.cpp
-    Game.cpp
-    Ball.cpp
-    Paddle.cpp
-    ControlStrategy.cpp
-	CenterLine.cpp
-	ScoreDisplay.cpp
+    src/Ball.cpp
+    src/CenterLine.cpp
+    src/ControlStrategy.cpp
+    src/Game.cpp
+    src/Paddle.cpp
+    src/ScoreDisplay.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_library(pong_lib ${SOURCES})
 
-target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}   
-        ${SFML_INCLUDE_DIR}           # SFML/include
+target_include_directories(pong_lib
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/pong
+        ${SFML_INCLUDE_DIR}
 )
 
-target_link_directories(${PROJECT_NAME}
-    PRIVATE
-        ${SFML_LIB_DIR}               # SFML/lib
+target_link_directories(pong_lib
+    PUBLIC
+        ${SFML_LIB_DIR}
 )
+
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        sfml-system
-        sfml-window
+        pong_lib
         sfml-graphics
+        sfml-window
+        sfml-system
 )
 
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/arial.ttf")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_SOURCE_DIR}/arial.ttf"
-            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/arial.ttf"
-    )
-endif()
-
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          ${CMAKE_SOURCE_DIR}/assets/fonts/arial.ttf
+          $<TARGET_FILE_DIR:${PROJECT_NAME}>/arial.ttf
+)
