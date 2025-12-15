@@ -21,16 +21,17 @@ public:
 			);
 
 	void update(float dt) override;
-	void draw() override;
 
-	float 		 getCenterY() const;
-	sf::FloatRect getBounds() const;
+	float getCenterY() const;
+	void  setSpeed(float speed) { mSpeed = speed; }
+	float getSpeed() const 		{ return mSpeed; }
 
-	void setPosition(const sf::Vector2f& pos);
+protected:
+    sf::Shape& getShape() override;
+    const sf::Shape& getShape() const override;
 
 private:
-    sf::RectangleShape mShape;
-    sf::RenderWindow& mWindow;
+    sf::RectangleShape              mShape;
     std::unique_ptr<ControlStrategy> mControlStrategy;
-	float mSpeed;
+    float                            mSpeed;
 };

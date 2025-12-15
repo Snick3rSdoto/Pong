@@ -1,6 +1,7 @@
 #include "Paddle.hpp"
 #include "Config.hpp"
 #include "ControlStrategy.hpp"
+#include "GameObject.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
@@ -11,8 +12,8 @@ Paddle::Paddle(const sf::Vector2f& startPos,
 		sf::RenderWindow& window,
 		std::unique_ptr<ControlStrategy> controlStrategy,
 		float speed)
-	: mShape()
-	, mWindow(window)
+	: GameObject(window)
+	, mShape()
 	, mControlStrategy(std::move(controlStrategy))
 	, mSpeed(speed)
 {
@@ -46,19 +47,15 @@ void Paddle::update(float dt) {
 
 }
 
-void Paddle::draw() {
-	mWindow.draw(mShape);
-}
 
 float Paddle::getCenterY() const {
-    return mShape.getPosition().y + PADDLE_HEIGHT / 2.f;
+    return mShape.getPosition().y + PADDLE_HEIGHT * 0.5f;
 }
 
-sf::FloatRect Paddle::getBounds() const {
-    return mShape.getGlobalBounds();
+sf::Shape& Paddle::getShape() {
+    return mShape;
 }
 
-void Paddle::setPosition(const sf::Vector2f& pos) {
-	mShape.setPosition(pos);
+const sf::Shape& Paddle::getShape() const {
+    return mShape;
 }
-

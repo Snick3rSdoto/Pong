@@ -16,7 +16,7 @@ AIControlStrategy::AIControlStrategy(const Ball& ball)
 
 // Very simple AI: the racket tries to keep the center level with the center of the ball
 float AIControlStrategy::getDirection(float paddleCenterY) {
-    const auto& shape = m_ball.getShape();
+    const auto& shape = m_ball.getCircleShape();
     float ballCenterY = shape.getPosition().y + shape.getRadius();
 
     constexpr const float deadZone = 10.f; // to keep it from twitching

@@ -11,17 +11,18 @@ public:
 	Ball(const sf::Vector2f& startPos, sf::RenderWindow& window);
 
 	void update(float dt) override;
-	void draw() override;
 
-	const sf::CircleShape& getShape() const { return mShape;} 
-	sf::FloatRect getBounds() const;
+	const sf::CircleShape& getCircleShape() const { return mShape;} 
 
 	const sf::Vector2f& getVelocity() const { return mVelocity; }
 	void setVelocity(const sf::Vector2f& vel);
 	void setPosition(const sf::Vector2f& pos);
 
+protected:
+    sf::Shape& getShape() override;
+    const sf::Shape& getShape() const override;
+
 private:
 	sf::CircleShape mShape;
 	sf::Vector2f	mVelocity;
-	sf::RenderWindow& mWindow;
 };

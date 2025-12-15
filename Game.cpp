@@ -147,7 +147,6 @@ void Game::handlePaddleCollisions() {
 
 void Game::handlePaddleCollision(const std::shared_ptr<Paddle>& paddle, bool isLeftPaddle) {
     if (!paddle) { return; }
-
     sf::FloatRect ballBounds   = mBall->getBounds();
     sf::Vector2f  ballVelocity = mBall->getVelocity();
     sf::FloatRect paddleBounds = paddle->getBounds();
