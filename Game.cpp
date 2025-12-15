@@ -7,8 +7,6 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 	initObjects();
-	initScoreText();
-
 }
 
 void Game::initObjects() {
@@ -40,19 +38,22 @@ void Game::initObjects() {
 			std::make_unique<AIControlStrategy>(*mBall), // AI follows the ball
 			PADDLE_SPEED * 0.5f //a little slover
 			);
+	    mFont.loadFromFile("arial.ttf");
 
-	mObjects.push_back(mBall);
-	mObjects.push_back(mPlayerPaddle);
-	mObjects.push_back(mOpponentPaddle);
-}
+    mScoreDisplay = std::make_shared<ScoreDisplay>(
+        mWindow,
+        mFont,
+        mPlayerScore,
+        mOpponentScore
+    );
 
-void Game::initScoreText() {
-	if (!mFont.loadFromFile("arial.ttf")) {
-		std::cerr << "Failed to load font arial.ttf\n";
-	}
-	mScoreText.setFont(mFont);
-	mScoreText.setCharacterSize(30);
-	mScoreText.setFillColor(sf::Color::White);
+    mCenterLine = std::make_shared<CenterLine>(mWindow);
+
+    mObjects.push_back(mCenterLine);
+    mObjects.push_back(mScoreDisplay);
+    mObjects.push_back(mBall);
+    mObjects.push_back(mPlayerPaddle);
+    mObjects.push_back(mOpponentPaddle);
 }
 
 void Game::run() {

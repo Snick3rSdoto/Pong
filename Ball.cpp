@@ -1,11 +1,12 @@
 #include "Ball.hpp"
 #include "GameObject.hpp"
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
 
 Ball::Ball(const sf::Vector2f& startPos, sf::RenderWindow& window)
-	: GameObject(window)
+	: MotionGameObject(window)
 	, mShape(BALL_RADIUS)
 	, mVelocity(BALL_SPEED, BALL_SPEED)
 {
@@ -46,6 +47,10 @@ void Ball::update(float dt) {
 
 }
 
+sf::FloatRect Ball::getBounds() const {
+	return mShape.getGlobalBounds();
+}
+
 void Ball::setVelocity(const sf::Vector2f& vel) {
     mVelocity = vel;
 }
@@ -54,11 +59,3 @@ void Ball::setPosition(const sf::Vector2f& position) {
     mShape.setPosition(position);
 }
 
-
-sf::Shape& Ball::getShape() {
-    return mShape;
-}
-
-const sf::Shape& Ball::getShape() const {
-    return mShape;
-}

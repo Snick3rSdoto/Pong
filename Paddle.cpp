@@ -12,7 +12,7 @@ Paddle::Paddle(const sf::Vector2f& startPos,
 		sf::RenderWindow& window,
 		std::unique_ptr<ControlStrategy> controlStrategy,
 		float speed)
-	: GameObject(window)
+	: MotionGameObject(window)
 	, mShape()
 	, mControlStrategy(std::move(controlStrategy))
 	, mSpeed(speed)
@@ -49,13 +49,14 @@ void Paddle::update(float dt) {
 
 
 float Paddle::getCenterY() const {
-    return mShape.getPosition().y + PADDLE_HEIGHT * 0.5f;
+    return mShape.getPosition().y + PADDLE_HEIGHT / 2.f;
 }
 
-sf::Shape& Paddle::getShape() {
-    return mShape;
+sf::FloatRect Paddle::getBounds() const {
+    return mShape.getGlobalBounds();
 }
 
-const sf::Shape& Paddle::getShape() const {
-    return mShape;
+void Paddle::setPosition(const sf::Vector2f& pos) {
+    mShape.setPosition(pos);
 }
+

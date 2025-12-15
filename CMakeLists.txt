@@ -20,6 +20,8 @@ set(SOURCES
     Ball.cpp
     Paddle.cpp
     ControlStrategy.cpp
+	CenterLine.cpp
+	ScoreDisplay.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

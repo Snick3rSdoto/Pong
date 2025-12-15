@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Paddle.hpp"
 #include "Ball.hpp"
+#include "ScoreDisplay.hpp"
+#include "CenterLine.hpp"
 #include <vector>
 #include <memory>
 
@@ -25,20 +27,22 @@ private:
 	void resetRound(int direction);
 
 	void initObjects();
-	void initScoreText();
+
 
 private:
     sf::RenderWindow mWindow;
 
+    sf::Font mFont;
 	sf::Text mScoreText;
-	sf::Font mFont;
 
-	std::shared_ptr<Ball>   mBall;
-    std::shared_ptr<Paddle> mPlayerPaddle;
-    std::shared_ptr<Paddle> mOpponentPaddle;
-	std::vector<std::shared_ptr<GameObject>> mObjects;
+    std::shared_ptr<Ball>         mBall;
+    std::shared_ptr<Paddle>       mPlayerPaddle;
+    std::shared_ptr<Paddle>       mOpponentPaddle;
+    std::shared_ptr<ScoreDisplay> mScoreDisplay;
+    std::shared_ptr<CenterLine>   mCenterLine;
 
-	int mPlayerScore{0};
-	int mOpponentScore{0};
+    std::vector<std::shared_ptr<GameObject>> mObjects;
 
+    int mPlayerScore{0};
+    int mOpponentScore{0};
 };

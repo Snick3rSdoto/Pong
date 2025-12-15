@@ -6,32 +6,36 @@
 
 class GameObject {
 public:
-    explicit GameObject(sf::RenderWindow& window)
-        : mWindow(window) {}
-
     virtual ~GameObject() = default;
 
     virtual void update(float dt) = 0;
+    virtual void draw() = 0;
+};
 
-    void draw() {
-        mWindow.draw(getShape());
-    }
-
-    sf::Vector2f getPosition() const {
-        return getShape().getPosition();
-    }
-
-    void setPosition(const sf::Vector2f& pos) {
-        getShape().setPosition(pos);
-    }
-
-    sf::FloatRect getBounds() const {
-        return getShape().getGlobalBounds();
-    }
+class DrawableGameObject : public GameObject {
+public:
+    explicit DrawableGameObject(sf::RenderWindow& window)
+        : mWindow(window) {}
 
 protected:
-    virtual sf::Shape& getShape() = 0;
-    virtual const sf::Shape& getShape() const = 0;
-
     sf::RenderWindow& mWindow;
+
+    virtual sf::Drawable& getDrawable() = 0;
+
+public:
+    void draw() override {
+        mWindow.draw(getDrawable());
+    }
+};
+
+class StaticGameObject : public DrawableGameObject {
+public:
+    using DrawableGameObject::DrawableGameObject;
+
+    void update(float) override {}
+};
+
+class MotionGameObject : public DrawableGameObject {
+public:
+    using DrawableGameObject::DrawableGameObject;
 };

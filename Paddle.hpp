@@ -12,7 +12,7 @@
 
 
 
-class Paddle : public GameObject{
+class Paddle : public MotionGameObject{
 public:
 	Paddle(const sf::Vector2f& startPos,
 			sf::RenderWindow& window,
@@ -23,15 +23,15 @@ public:
 	void update(float dt) override;
 
 	float getCenterY() const;
-	void  setSpeed(float speed) { mSpeed = speed; }
-	float getSpeed() const 		{ return mSpeed; }
+
+	sf::FloatRect getBounds() const;
+	void setPosition(const sf::Vector2f& pos);
 
 protected:
-    sf::Shape& getShape() override;
-    const sf::Shape& getShape() const override;
+	sf::Drawable& getDrawable() override { return mShape; }
 
 private:
-    sf::RectangleShape              mShape;
+    sf::RectangleShape               mShape;
     std::unique_ptr<ControlStrategy> mControlStrategy;
     float                            mSpeed;
 };
