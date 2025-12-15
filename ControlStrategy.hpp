@@ -4,7 +4,6 @@ class Ball;
 
 class ControlStrategy {
 public:
-	// Returns the Y direction: -1 (up), 0 (stand), 1 (down)
 	virtual float getDirection(float paddleCenterY) = 0;
 
 	virtual ~ControlStrategy() = default;

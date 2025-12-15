@@ -20,21 +20,8 @@ void Ball::update(float dt) {
 	float diameter = BALL_RADIUS * 2.f;
 	sf::Vector2u size = mWindow.getSize();
 
-
-	//movement
 	pos += mVelocity * dt;
 
-
-	 //rebound by X
-	//if (pos.x <= 0.f) {
-		//pos.x = 0.f;
-		//mVelocity.x *= -1.f;
-	//} else if (pos.x + diameter >= static_cast<float>(size.x)) {
-		//pos.x = static_cast<float>(size.x) - diameter;
-		//mVelocity.x *= -1.f;
-	//}
-	
-	// rebound by Y
     if (pos.y <= 0.f) {
         pos.y = 0.f;
         mVelocity.y *= -1.f;

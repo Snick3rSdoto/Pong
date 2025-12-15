@@ -21,7 +21,7 @@ void Game::initObjects() {
 
 	mPlayerPaddle = std::make_shared<Paddle>(
 			sf::Vector2f(
-				10.f, // move away a bit
+				10.f,
 				WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
 				),
 			mWindow,
@@ -35,8 +35,8 @@ void Game::initObjects() {
 				WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
 				),
 			mWindow,
-			std::make_unique<AIControlStrategy>(*mBall), // AI follows the ball
-			PADDLE_SPEED * 0.5f //a little slover
+			std::make_unique<AIControlStrategy>(*mBall),
+			PADDLE_SPEED * 0.5f
 			);
 	    mFont.loadFromFile("arial.ttf");
 
@@ -85,36 +85,15 @@ void Game::update(float dt) {
 	for(auto& obj : mObjects) {
 		obj->update(dt);
 	}
-
 	handleCollisions();
-
-	//std::cout << mPlayerScore << " " << mOpponentScore << "\n";
-	
-	mScoreText.setString(
-			std::to_string(mPlayerScore) + " : " + std::to_string(mOpponentScore)
-			);
-
-	//Center the text horizontally, place it on top
-	sf::FloatRect bounds = mScoreText.getLocalBounds();
-	mScoreText.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	mScoreText.setPosition(WINDOW_WIDTH / 2.f, 30.f);
 }
 
 void Game::render() {
 	mWindow.clear(sf::Color::Black);
 
-	// small centralized line
-	sf::RectangleShape centerLine({2.f, static_cast<float>(WINDOW_HEIGHT)});
-	centerLine.setFillColor(sf::Color(128, 128, 128));
-	centerLine.setPosition(WINDOW_WIDTH / 2.f, 0.f);
-	mWindow.draw(centerLine);
-
 	for(auto& obj : mObjects) {
 		obj->draw();
 	}
-
-	mWindow.draw(mScoreText);
-
     mWindow.display();
 }
 
@@ -181,13 +160,11 @@ void Game::resetRound(int direction) {
     );
     mBall->setPosition(centerPos);
 
-	// random Y direction: up or down
     float signY = (std::rand() % 2 == 0 ? 1.f : -1.f);
     sf::Vector2f vel(direction * BALL_SPEED,
                      signY * BALL_SPEED * 0.5f);
     mBall->setVelocity(vel);
 
-    // resetes positions of paddles 
     mPlayerPaddle->setPosition({
         10.f,
         WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f

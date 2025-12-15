@@ -26,7 +26,6 @@ Paddle::Paddle(const sf::Vector2f& startPos,
 void Paddle::update(float dt) {
 
 	float paddleCenterY = getCenterY();
-	// -1, 0, 1 from strategy
 	float dir = mControlStrategy->getDirection(paddleCenterY);
 	
 
@@ -34,7 +33,6 @@ void Paddle::update(float dt) {
 	pos.y += dir * mSpeed * dt;
 
 
-	// limit it within the window
     float windowHeight = static_cast<float>(mWindow.getSize().y);
 
     if (pos.y < 0.f) {
