@@ -15,16 +15,19 @@ void PlayerControlStrategy::updateDirection(Paddle& paddle) {
 	paddle.setDirection({0.f, dirY});
 }
 
-AIControlStrategy::AIControlStrategy(const Ball& ball)
-    : m_ball(ball)
+AIControlStrategy::AIControlStrategy(std::shared_ptr<Ball> ball)
+	: mBall(std::move(ball))
 {}
 
 void AIControlStrategy::updateDirection(Paddle& paddle) {
-
+	if (!mBall) {
+		paddle.setDirection({0.f, 0.f});
+		return;
+    }
 	sf::Vector2f paddleCenter = paddle.getCenter();
     float paddleCenterY = paddleCenter.y;
 
-    sf::Vector2f ballCenter   = m_ball.getCenter();
+    sf::Vector2f ballCenter   = mBall->getCenter();
     float ballCenterY = ballCenter.y;
 
     constexpr float deadZone = 10.f;

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 class Ball;
 class Paddle;
@@ -21,9 +22,9 @@ public:
 
 class AIControlStrategy : public ControlStrategy {
 public:
-    explicit AIControlStrategy(const Ball& ball);
+    explicit AIControlStrategy(std::shared_ptr<Ball> ball);
 	void updateDirection(Paddle& paddle) override;
 
 private:
-    const Ball& m_ball;
+	std::shared_ptr<Ball> mBall;
 };

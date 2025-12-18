@@ -50,7 +50,7 @@ void Game::initObjects() {
 
     mOpponentPaddle = std::make_shared<Paddle>(
         mWindow,
-        std::make_unique<AIControlStrategy>(*mBall)
+        std::make_unique<AIControlStrategy>(mBall)
     );
     mOpponentPaddle->setColor(sf::Color::White);
     mOpponentPaddle->setSize({PADDLE_WIDTH, PADDLE_HEIGHT});
