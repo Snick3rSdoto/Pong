@@ -1,7 +1,7 @@
-#include "Paddle.hpp"
-#include "Config.hpp"
-#include "ControlStrategy.hpp"
-#include "GameObject.hpp"
+#include "../include/pong/Paddle.hpp"
+#include "../include/pong/Config.hpp"
+#include "../include/pong/ControlStrategy.hpp"
+#include "../include/pong/GameObject.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
@@ -16,13 +16,9 @@ Paddle::Paddle(sf::RenderWindow& window,
 
 void Paddle::update(float dt) {
 
-	float paddleCenterY = getCenter().y;
-	float dirY = 0.f;
-	if (mControlStrategy) {
-		dirY = mControlStrategy->getDirection(paddleCenterY);
+	if(mControlStrategy) {
+		mControlStrategy->updateDirection(*this);
 	}
-
-	setDirection({0.f, dirY});
 
 	GameObject::update(dt);
 

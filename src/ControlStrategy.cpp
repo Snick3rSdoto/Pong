@@ -1,28 +1,42 @@
-#include "ControlStrategy.hpp"
-#include "Ball.hpp"
+#include "../include/pong/ControlStrategy.hpp"
+#include "../include/pong/Ball.hpp"
+#include "../include/pong/Paddle.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
-float PlayerControlStrategy::getDirection(float /*paddleCenterY*/) {
+
+void PlayerControlStrategy::updateDirection(Paddle& paddle) {
+	float dirY = 0.f;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		return -1.f;
+		dirY -= 1.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		return 1.f;
-    return 0.f;
+		dirY += 1.f;
+
+	paddle.setDirection({0.f, dirY});
 }
 
 AIControlStrategy::AIControlStrategy(const Ball& ball)
     : m_ball(ball)
 {}
 
-float AIControlStrategy::getDirection(float paddleCenterY) {
-	sf::Vector2f ballCenter = m_ball.getCenter();
-	float ballCenterY = ballCenter.y;
+void AIControlStrategy::updateDirection(Paddle& paddle) {
 
-    constexpr const float deadZone = 10.f;
+	sf::Vector2f paddleCenter = paddle.getCenter();
+    float paddleCenterY = paddleCenter.y;
+
+    sf::Vector2f ballCenter   = m_ball.getCenter();
+    float ballCenterY = ballCenter.y;
+
+    constexpr float deadZone = 10.f;
+    float dirY = 0.f;
+
     if (ballCenterY < paddleCenterY - deadZone)
-        return -1.f;
-    if (ballCenterY > paddleCenterY + deadZone)
-        return 1.f;
-    return 0.f;
+        dirY = -1.f;
+    else if (ballCenterY > paddleCenterY + deadZone)
+        dirY = 1.f;
+    else
+        dirY = 0.f;
+
+    paddle.setDirection({0.f, dirY});
 }
 

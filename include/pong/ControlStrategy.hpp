@@ -1,10 +1,11 @@
 #pragma once
 
 class Ball;
+class Paddle;
 
 class ControlStrategy {
 public:
-	virtual float getDirection(float paddleCenterY) = 0;
+	virtual void updateDirection(Paddle& paddle) = 0;
 
 	virtual ~ControlStrategy() = default;
 
@@ -14,14 +15,14 @@ public:
 
 class PlayerControlStrategy : public ControlStrategy {
 public:
-    float getDirection(float paddleCenterY) override;
+	void updateDirection(Paddle& paddle) override;
 };
 
 
 class AIControlStrategy : public ControlStrategy {
 public:
     explicit AIControlStrategy(const Ball& ball);
-    float getDirection(float paddleCenterY) override;
+	void updateDirection(Paddle& paddle) override;
 
 private:
     const Ball& m_ball;
