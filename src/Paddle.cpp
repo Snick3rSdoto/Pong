@@ -1,7 +1,7 @@
-#include "../include/pong/Paddle.hpp"
-#include "../include/pong/Config.hpp"
-#include "../include/pong/ControlStrategy.hpp"
-#include "../include/pong/GameObject.hpp"
+#include "Paddle.hpp"
+#include "Config.hpp"
+#include "ControlStrategy.hpp"
+#include "GameObject.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>

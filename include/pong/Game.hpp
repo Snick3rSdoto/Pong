@@ -28,7 +28,6 @@ private:
 
 	void initObjects();
 
-
 private:
     sf::RenderWindow mWindow;
 
@@ -41,7 +40,4 @@ private:
     std::shared_ptr<CenterLine>   mCenterLine;
 
     std::vector<std::shared_ptr<GameObject>> mObjects;
-
-    int mPlayerScore{0};
-    int mOpponentScore{0};
 };

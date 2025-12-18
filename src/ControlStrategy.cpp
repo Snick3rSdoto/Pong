@@ -1,6 +1,6 @@
-#include "../include/pong/ControlStrategy.hpp"
-#include "../include/pong/Ball.hpp"
-#include "../include/pong/Paddle.hpp"
+#include "ControlStrategy.hpp"
+#include "Ball.hpp"
+#include "Paddle.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
 

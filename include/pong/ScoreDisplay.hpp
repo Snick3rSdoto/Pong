@@ -5,12 +5,14 @@
 #include "GameObject.hpp"
 #include "Config.hpp"
 
+enum class ScoreOwner {
+	Player,
+	Ai
+};
+
 class ScoreDisplay : public GameObject {
 public:
-    ScoreDisplay(sf::RenderWindow& window,
-                 const sf::Font& font,
-                 const int& playerScore,
-                 const int& opponentScore);
+    ScoreDisplay(sf::RenderWindow& window, const sf::Font& font);
 
     void update(float dt) override;
 	void draw() override;
@@ -18,14 +20,23 @@ public:
 	void setSize(const sf::Vector2f& size) override;
 	sf::Vector2f getCenter() const override;
 
+	void increment(ScoreOwner owner);
+	void resetScores();
+
+	int getPlayerScore() const  { return mPlayerScore; }
+	int getAiScore() const      { return mAiScore; }
+
 protected:
 	sf::Shape& getShape() override 	{ return mBackground; }
 	const sf::Shape& getShape() const override { return mBackground; }
 
 private:
+	void updateText();
+
 	sf::RectangleShape 	mBackground;
     sf::Text   			mText;
-    const int& 			mPlayerScore;
-    const int& 			mOpponentScore;
+
+	int mPlayerScore{0};
+	int mAiScore{0};
 };
 

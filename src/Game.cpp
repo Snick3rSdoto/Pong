@@ -17,11 +17,11 @@ void Game::initObjects() {
 	mCenterLine = std::make_shared<CenterLine>(mWindow);
 	
 
-	mScoreDisplay = std::make_shared<ScoreDisplay>(
-			mWindow,
-			mFont,
-			mPlayerScore,
-			mOpponentScore
+	mScoreDisplay = std::make_shared<ScoreDisplay>(mWindow, mFont);
+	mScoreDisplay->setSize({220.f, 60.f});
+	mScoreDisplay->setPosition(
+			WINDOW_WIDTH / 2.f - 110.f,
+			10.f
 			);
 
 
@@ -120,12 +120,12 @@ bool Game::handleGoalCollisions() {
     sf::FloatRect ballBounds = mBall->getBounds();
 
     if (ballBounds.left <= 0.f) {
-        ++mOpponentScore;
+		mScoreDisplay->increment(ScoreOwner::Ai);
         resetRound(1);
         return true;
     }
     if (ballBounds.left + ballBounds.width >= static_cast<float>(WINDOW_WIDTH)) {
-        ++mPlayerScore;
+        mScoreDisplay->increment(ScoreOwner::Player);
         resetRound(-1);
         return true;
     }

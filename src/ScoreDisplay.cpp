@@ -1,16 +1,11 @@
 #include "ScoreDisplay.hpp"
 #include <string>
 
-ScoreDisplay::ScoreDisplay(sf::RenderWindow& window,
-                           const sf::Font& font,
-                           const int& playerScore,
-                           const int& opponentScore)
-    : GameObject(window)
-    , mPlayerScore(playerScore)
-    , mOpponentScore(opponentScore)
+ScoreDisplay::ScoreDisplay(sf::RenderWindow& window, const sf::Font& font)
+	: GameObject(window)
 {
     mText.setFont(font);
-    mText.setCharacterSize(30);
+    mText.setCharacterSize(32);
     mText.setFillColor(sf::Color::White);
 
 	mBackground.setFillColor(sf::Color(0, 0, 0, 0));
@@ -21,13 +16,47 @@ ScoreDisplay::ScoreDisplay(sf::RenderWindow& window,
 
 	setDirection({0.f, 0.f});
 	setSpeed(0.f);
+
+	updateText();
 }
 
 
+void ScoreDisplay::update(float /*dt*/) {}
 
-void ScoreDisplay::update(float /*dt*/) {
+
+void ScoreDisplay::draw() {
+    mWindow.draw(mText);
+}
+
+void ScoreDisplay::setSize(const sf::Vector2f& size) {
+    mBackground.setSize(size);
+	updateText();
+}
+
+sf::Vector2f ScoreDisplay::getCenter() const {
+    sf::Vector2f pos  = getPosition();
+    sf::Vector2f size = mBackground.getSize();
+    return { pos.x + size.x / 2.f, pos.y + size.y / 2.f };
+}
+
+void ScoreDisplay::increment(ScoreOwner owner) {
+    if (owner == ScoreOwner::Player)
+        ++mPlayerScore;
+    else
+        ++mAiScore;
+
+    updateText();
+}
+
+void ScoreDisplay::resetScores() {
+    mPlayerScore = 0;
+    mAiScore     = 0;
+    updateText();
+}
+
+void ScoreDisplay::updateText() {
     mText.setString(
-        std::to_string(mPlayerScore) + " : " + std::to_string(mOpponentScore)
+        std::to_string(mPlayerScore) + " : " + std::to_string(mAiScore)
     );
 
     sf::FloatRect textBounds = mText.getLocalBounds();
@@ -39,21 +68,4 @@ void ScoreDisplay::update(float /*dt*/) {
         pos.x + size.x / 2.f,
         pos.y + size.y / 2.f
     );
-}
-
-void ScoreDisplay::draw() {
-    // Если хочешь фон – раскомментируй:
-    // mWindow.draw(mBackground);
-
-    mWindow.draw(mText);
-}
-
-void ScoreDisplay::setSize(const sf::Vector2f& size) {
-    mBackground.setSize(size);
-}
-
-sf::Vector2f ScoreDisplay::getCenter() const {
-    sf::Vector2f pos  = getPosition();
-    sf::Vector2f size = mBackground.getSize();
-    return { pos.x + size.x / 2.f, pos.y + size.y / 2.f };
 }
