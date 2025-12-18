@@ -8,23 +8,23 @@
 #include "Config.hpp"
 #include "GameObject.hpp"
 
-class Ball : public MotionGameObject {
+class Ball : public GameObject {
 public:
-	Ball(const sf::Vector2f& startPos, sf::RenderWindow& window);
+    Ball(sf::RenderWindow& window);
 
-	void update(float dt) override;
+    void update(float dt) override;
 
-	const sf::CircleShape& getCircleShape() const { return mShape;} 
-	sf::FloatRect getBounds() const;
+    void setSize(const sf::Vector2f& size) override;
+    sf::Vector2f getCenter() const override;
 
-	const sf::Vector2f& getVelocity() const { return mVelocity; }
-	void setVelocity(const sf::Vector2f& vel);
-	void setPosition(const sf::Vector2f& pos);
+    sf::FloatRect getBounds() const { return GameObject::getBounds(); }
+
+    void reset(const sf::Vector2f& position);
 
 protected:
-	sf::Drawable& getDrawable() override { return mShape; }
+    sf::Shape& getShape() override { return mShape; }
+    const sf::Shape& getShape() const override { return mShape; }
 
 private:
 	sf::CircleShape mShape;
-	sf::Vector2f	mVelocity;
 };

@@ -33,7 +33,6 @@ private:
     sf::RenderWindow mWindow;
 
     sf::Font mFont;
-	sf::Text mScoreText;
 
     std::shared_ptr<Ball>         mBall;
     std::shared_ptr<Paddle>       mPlayerPaddle;

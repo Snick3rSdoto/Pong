@@ -8,53 +8,44 @@
 
 
 
-Paddle::Paddle(const sf::Vector2f& startPos,
-		sf::RenderWindow& window,
-		std::unique_ptr<ControlStrategy> controlStrategy,
-		float speed)
-	: MotionGameObject(window)
-	, mShape()
-	, mControlStrategy(std::move(controlStrategy))
-	, mSpeed(speed)
-{
-	mShape.setSize(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT));
-	mShape.setFillColor(sf::Color::White);
-	mShape.setPosition(startPos);
-}
+Paddle::Paddle(sf::RenderWindow& window, 
+			std::unique_ptr<ControlStrategy> controlStrategy) 
+	: GameObject(window)
+	, mControlStrategy(std::move(controlStrategy)) {}
 
 
 void Paddle::update(float dt) {
 
-	float paddleCenterY = getCenterY();
-	float dir = mControlStrategy->getDirection(paddleCenterY);
-	
+	float paddleCenterY = getCenter().y;
+	float dirY = 0.f;
+	if (mControlStrategy) {
+		dirY = mControlStrategy->getDirection(paddleCenterY);
+	}
 
-    sf::Vector2f pos = mShape.getPosition();
-	pos.y += dir * mSpeed * dt;
+	setDirection({0.f, dirY});
 
+	GameObject::update(dt);
 
-    float windowHeight = static_cast<float>(mWindow.getSize().y);
+	sf::Vector2f pos  = getPosition();
+	sf::Vector2f size = mShape.getSize();
+	float windowHeight = static_cast<float>(mWindow.getSize().y);
 
-    if (pos.y < 0.f) {
-        pos.y = 0.f;
-    } else if (pos.y + PADDLE_HEIGHT > windowHeight) {
-        pos.y = windowHeight - PADDLE_HEIGHT;
-    }
+	if (pos.y < 0.f) {
+		pos.y = 0.f;
+	} else if (pos.y + size.y > windowHeight) {
+		pos.y = windowHeight - size.y;
+	}
 
-    mShape.setPosition(pos);
-
+	setPosition(pos);
 }
 
-
-float Paddle::getCenterY() const {
-    return mShape.getPosition().y + PADDLE_HEIGHT / 2.f;
+void Paddle::setSize(const sf::Vector2f& size) {
+    mShape.setSize(size);
 }
 
-sf::FloatRect Paddle::getBounds() const {
-    return mShape.getGlobalBounds();
-}
+sf::Vector2f Paddle::getCenter() const {
+    sf::Vector2f pos  = getPosition();
+    sf::Vector2f size = mShape.getSize();
 
-void Paddle::setPosition(const sf::Vector2f& pos) {
-    mShape.setPosition(pos);
+    return { pos.x + size.x / 2.f, pos.y + size.y / 2.f };
 }
-

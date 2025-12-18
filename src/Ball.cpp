@@ -5,44 +5,51 @@
 #include <SFML/System/Vector2.hpp>
 
 
-Ball::Ball(const sf::Vector2f& startPos, sf::RenderWindow& window)
-	: MotionGameObject(window)
+Ball::Ball(sf::RenderWindow& window)
+	: GameObject(window)
 	, mShape(BALL_RADIUS)
-	, mVelocity(BALL_SPEED, BALL_SPEED)
 {
 	mShape.setFillColor(sf::Color::White);
-	mShape.setPosition(startPos);
+
+	setSpeed(BALL_SPEED);
+	setDirection({1.f, 0.5});
 }
+
 
 void Ball::update(float dt) {
 
-	sf::Vector2f pos = mShape.getPosition();
+	GameObject::update(dt);
+
+	sf::Vector2f pos = getPosition();
 	float diameter = BALL_RADIUS * 2.f;
 	sf::Vector2u size = mWindow.getSize();
 
-	pos += mVelocity * dt;
-
-    if (pos.y <= 0.f) {
-        pos.y = 0.f;
-        mVelocity.y *= -1.f;
-    } else if (pos.y + diameter >= static_cast<float>(size.y)) {
-        pos.y = static_cast<float>(size.y) - diameter;
-        mVelocity.y *= -1.f;
-    }
-
-	mShape.setPosition(pos);
-
+	if (pos.y <= 0.f) {
+		pos.y = 0.f;
+		auto dir = getDirection();
+		dir.y = -dir.y;
+		setDirection(dir);
+	} else if (pos.y + diameter >= static_cast<float>(size.y)) {
+		pos.y = static_cast<float>(size.y) - diameter;
+		auto dir = getDirection();
+		dir.y = -dir.y;
+		setDirection(dir);
+	}
+	setPosition(pos);
 }
 
-sf::FloatRect Ball::getBounds() const {
-	return mShape.getGlobalBounds();
+
+void Ball::setSize(const sf::Vector2f& size) {
+    float radius = std::min(size.x, size.y) * 0.5f;
+    mShape.setRadius(radius);
 }
 
-void Ball::setVelocity(const sf::Vector2f& vel) {
-    mVelocity = vel;
+sf::Vector2f Ball::getCenter() const {
+    sf::Vector2f pos = getPosition();
+    float r = mShape.getRadius();
+    return { pos.x + r, pos.y + r };
 }
 
-void Ball::setPosition(const sf::Vector2f& position) {
-    mShape.setPosition(position);
+void Ball::reset(const sf::Vector2f& position) {
+    setPosition(position);
 }
-

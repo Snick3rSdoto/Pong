@@ -15,8 +15,8 @@ AIControlStrategy::AIControlStrategy(const Ball& ball)
 {}
 
 float AIControlStrategy::getDirection(float paddleCenterY) {
-    const auto& shape = m_ball.getCircleShape();
-    float ballCenterY = shape.getPosition().y + shape.getRadius();
+	sf::Vector2f ballCenter = m_ball.getCenter();
+	float ballCenterY = ballCenter.y;
 
     constexpr const float deadZone = 10.f;
     if (ballCenterY < paddleCenterY - deadZone)

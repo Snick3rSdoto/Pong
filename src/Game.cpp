@@ -10,50 +10,62 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SFML Game")
 }
 
 void Game::initObjects() {
+	if (!mFont.loadFromFile("arial.ttf")) {
+    	std::cerr << "Failed to load font\n";
+	}
 
-	mBall = std::make_shared<Ball>(
-			sf::Vector2f(
-				WINDOW_WIDTH  / 2.f - BALL_RADIUS,
-				WINDOW_HEIGHT / 2.f - BALL_RADIUS
-				),
-			mWindow
-			);
+	mCenterLine = std::make_shared<CenterLine>(mWindow);
+	
 
-	mPlayerPaddle = std::make_shared<Paddle>(
-			sf::Vector2f(
-				10.f,
-				WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
-				),
+	mScoreDisplay = std::make_shared<ScoreDisplay>(
 			mWindow,
-			std::make_unique<PlayerControlStrategy>()
-			//PADDLE_SPEED
+			mFont,
+			mPlayerScore,
+			mOpponentScore
 			);
 
-	mOpponentPaddle = std::make_shared<Paddle>(
-			sf::Vector2f(
-				WINDOW_WIDTH - PADDLE_WIDTH - 10.f,
-				WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
-				),
-			mWindow,
-			std::make_unique<AIControlStrategy>(*mBall),
-			PADDLE_SPEED * 0.5f
-			);
-	    mFont.loadFromFile("arial.ttf");
 
-    mScoreDisplay = std::make_shared<ScoreDisplay>(
-        mWindow,
-        mFont,
-        mPlayerScore,
-        mOpponentScore
+	mBall = std::make_shared<Ball>(mWindow);
+    mBall->setColor(sf::Color::White);
+    mBall->setPosition(
+        WINDOW_WIDTH  / 2.f - BALL_RADIUS,
+        WINDOW_HEIGHT / 2.f - BALL_RADIUS
     );
+    mBall->setSpeed(BALL_SPEED);
+    mBall->setDirection({1.f, 0.5f});
 
-    mCenterLine = std::make_shared<CenterLine>(mWindow);
 
-    mObjects.push_back(mCenterLine);
-    mObjects.push_back(mScoreDisplay);
+    mPlayerPaddle = std::make_shared<Paddle>(
+        mWindow,
+        std::make_unique<PlayerControlStrategy>()
+    );
+    mPlayerPaddle->setColor(sf::Color::White);
+    mPlayerPaddle->setSize({PADDLE_WIDTH, PADDLE_HEIGHT});
+    mPlayerPaddle->setPosition(
+        10.f,
+        WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
+    );
+    mPlayerPaddle->setSpeed(PADDLE_SPEED);
+
+
+    mOpponentPaddle = std::make_shared<Paddle>(
+        mWindow,
+        std::make_unique<AIControlStrategy>(*mBall)
+    );
+    mOpponentPaddle->setColor(sf::Color::White);
+    mOpponentPaddle->setSize({PADDLE_WIDTH, PADDLE_HEIGHT});
+    mOpponentPaddle->setPosition(
+        WINDOW_WIDTH - PADDLE_WIDTH - 10.f,
+        WINDOW_HEIGHT / 2.f - PADDLE_HEIGHT / 2.f
+    );
+    mOpponentPaddle->setSpeed(PADDLE_SPEED * 0.5f);
+
+
     mObjects.push_back(mBall);
     mObjects.push_back(mPlayerPaddle);
     mObjects.push_back(mOpponentPaddle);
+	mObjects.push_back(mCenterLine);
+	mObjects.push_back(mScoreDisplay);
 }
 
 void Game::run() {
@@ -128,14 +140,14 @@ void Game::handlePaddleCollisions() {
 void Game::handlePaddleCollision(const std::shared_ptr<Paddle>& paddle, bool isLeftPaddle) {
     if (!paddle) { return; }
     sf::FloatRect ballBounds   = mBall->getBounds();
-    sf::Vector2f  ballVelocity = mBall->getVelocity();
+    sf::Vector2f  ballDir = mBall->getDirection();
     sf::FloatRect paddleBounds = paddle->getBounds();
 
     if (!ballBounds.intersects(paddleBounds)) {
         return;
-    } else if (isLeftPaddle && ballVelocity.x >= 0.f) {
+    } else if (isLeftPaddle && ballDir.x >= 0.f) {
         return;
-    } else if (!isLeftPaddle && ballVelocity.x <= 0.f) {
+    } else if (!isLeftPaddle && ballDir.x <= 0.f) {
         return;
     }
 
@@ -147,8 +159,8 @@ void Game::handlePaddleCollision(const std::shared_ptr<Paddle>& paddle, bool isL
 
     mBall->setPosition({ ballBounds.left, ballBounds.top });
 
-    ballVelocity.x = -ballVelocity.x;
-    mBall->setVelocity(ballVelocity);
+    ballDir.x = -ballDir.x;
+    mBall->setDirection(ballDir);
 	std::cout << '\a' << std::flush;
 }
 
@@ -161,9 +173,9 @@ void Game::resetRound(int direction) {
     mBall->setPosition(centerPos);
 
     float signY = (std::rand() % 2 == 0 ? 1.f : -1.f);
-    sf::Vector2f vel(direction * BALL_SPEED,
-                     signY * BALL_SPEED * 0.5f);
-    mBall->setVelocity(vel);
+	sf::Vector2f dirVec(direction * 1.f, signY * 0.5f);
+	mBall->setDirection(dirVec);
+	mBall->setSpeed(BALL_SPEED);
 
     mPlayerPaddle->setPosition({
         10.f,
